@@ -1,5 +1,7 @@
 package com.voter.signup.controller;
 
+import static com.voter.entity.VCList.SEQUENCE_NAME;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.voter.signup.entity.User;
+import com.voter.signup.service.SeqDBGeneratorService;
 import com.voter.signup.service.UserService;
 
 
@@ -18,9 +21,13 @@ public class AuthController {
 	@Autowired
     private UserService userService;
 	
+	@Autowired
+	private SeqDBGeneratorService service;
+
+	
     @PostMapping("/signup")
     public ResponseEntity<User> signup(@RequestBody User user) {
-    	
+    	user.setId(service.getSequenceNumber(SEQUENCE_NAME));
         User newUser = userService.signup(user);
         return ResponseEntity.ok(newUser);
     }

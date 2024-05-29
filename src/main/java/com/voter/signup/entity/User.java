@@ -10,7 +10,7 @@ public class User {
 	
 	
 	@Id
-    private String id;
+    private int id;
 	@NotBlank(message = "Voter name is Required")
     private String votername;
 	@NotBlank(message = "Voter password is Required")
@@ -26,10 +26,10 @@ public class User {
 	public void setOtp(String otp) {
 		this.otp = otp;
 	}
-	public String getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getVotername() {
@@ -50,7 +50,7 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public User(String id, String votername, String password, String email, String otp) {
+	public User(int id, String votername, String password, String email, String otp) {
 		super();
 		this.id = id;
 		this.votername = votername;

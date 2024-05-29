@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.voter.entity.VCList;
+import com.voter.secure.dto.UserInfi;
 
 @Service
 public interface VCService {
@@ -26,5 +27,7 @@ public interface VCService {
 	String deleteVoterById(int id);
 
 	String deleteVoterByName(String name);
+
+	String addUser(UserInfi userInfi);
 	
 }

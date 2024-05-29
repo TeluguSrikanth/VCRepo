@@ -5,16 +5,26 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.voter.entity.VCList;
 import com.voter.repo.VCRepo;
+import com.voter.secure.dto.UserInfi;
+import com.voter.secure.repo.UserInfiRepository;
 
 @Service
 public class VCServiceImpl implements VCService{
 
 	@Autowired
+    private PasswordEncoder passwordEncoder;
+
+	
+	@Autowired
 	VCRepo vcRepo;
+	
+	@Autowired
+	private UserInfiRepository userInfiRepository;
 	
 	
 	@Override
@@ -76,4 +86,14 @@ public class VCServiceImpl implements VCService{
 		vcRepo.deleteVoterByName(name);
 		return "Record deleted Successfully";
 	}
+	
+	public String addUser(UserInfi userInfi) {
+        userInfi.setPassword(passwordEncoder.encode(userInfi.getPassword()));
+        userInfiRepository.save(userInfi);
+        return "user added to system ";
+    }
+	
+	
 }
+
+

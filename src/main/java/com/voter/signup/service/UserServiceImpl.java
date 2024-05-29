@@ -21,6 +21,8 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
     private Validator validator;
+	
+	
 
     @Override
     public User signup(User user) {
@@ -52,8 +54,9 @@ public class UserServiceImpl implements UserService{
         }
         
      // Login successful, return the user
+        
         return user;
-    	
+        
         //return userRepository.findByVoternameAndPassword(votername, password);
     }
     
