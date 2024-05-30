@@ -4,6 +4,7 @@ import static com.voter.entity.VCList.SEQUENCE_NAME;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,7 @@ public class AuthController {
 
 	
     @PostMapping("/signup")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     public ResponseEntity<User> signup(@RequestBody User user) {
     	user.setId(service.getSequenceNumber(SEQUENCE_NAME));
         User newUser = userService.signup(user);
@@ -33,6 +35,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     public ResponseEntity<User> login(@RequestBody User user) {
     	
         User loggedInUser = userService.login(user.getVotername(), user.getPassword());
@@ -45,6 +48,7 @@ public class AuthController {
     
     
     @PostMapping("/loginWithOtp")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     public ResponseEntity<?> loginWithOtp(@RequestBody User user) {
         if (user.getVotername() == null || user.getOtp() == null) {
             return ResponseEntity.badRequest().body("Votername and OTP must be provided");
@@ -60,6 +64,7 @@ public class AuthController {
     }
     
     @PostMapping("/requestOtp")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     public ResponseEntity<String> requestOtp(@RequestBody User user) {
         if (user.getVotername() == null) {
             return ResponseEntity.badRequest().body("Votername must be provided");

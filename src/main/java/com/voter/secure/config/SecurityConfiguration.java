@@ -49,10 +49,10 @@ public class SecurityConfiguration {
 	{	
 	return http.csrf().disable()
 		    .authorizeHttpRequests()
-		    .requestMatchers("/voter/wel", "/voter/new", "/voter/authenticate")
+		    .requestMatchers("/voter/wel", "/voter/new", "/voter/authenticate","/auth/login")
 		    .permitAll()
 		    .and()
-		    .authorizeHttpRequests().requestMatchers("/voter/**").authenticated()
+		    .authorizeHttpRequests().requestMatchers("/voter/**", "/auth/**").authenticated()
 		    .and()
 		    .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

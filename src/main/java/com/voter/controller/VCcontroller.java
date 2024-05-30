@@ -59,6 +59,7 @@ public class VCcontroller {
 	
 	
 	@PostMapping("/addvoter")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	public VCList addvoter(@RequestBody VCList voter){
 		
 		voter.setId(service.getSequenceNumber(SEQUENCE_NAME));
@@ -90,23 +91,27 @@ public class VCcontroller {
 	}
 	
 	@PutMapping("/update/{id}")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	public ResponseEntity<VCList> updateVoterById(@PathVariable int id, @RequestBody VCList voter){
 		
 		return vcService.updateVoterById(id,voter);
 	}
 	
 	@PutMapping("/updateName/{name}")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	public ResponseEntity<VCList> updateVoterByName(@PathVariable String name, @RequestBody VCList voter){
 		
 		return vcService.updateVoterByName(name,voter);
 	}
 	
 	@DeleteMapping("/delete/{id}")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	public String deleteVoterById(@PathVariable int id) {
 		return vcService.deleteVoterById(id);
 	}
 
 	@DeleteMapping("/deleteByName/{name}")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	public String deleteVoterByName(@PathVariable String name, @RequestBody VCList voter) {
 		return vcService.deleteVoterByName(name);
 	}
