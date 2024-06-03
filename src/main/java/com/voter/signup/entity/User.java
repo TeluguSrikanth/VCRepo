@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import jakarta.validation.constraints.NotBlank;
 
-@Document(collection = "voter")
+@Document(collection = "votersign")
 public class User {
 	
 	
@@ -19,6 +19,8 @@ public class User {
     private String email;
 	
 	private String otp;
+	
+	private long otpTimestamp; // Timestamp when OTP was generated
 	
 	public String getOtp() {
 		return otp;
@@ -50,13 +52,27 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public User(int id, String votername, String password, String email, String otp) {
+	
+	public long getOtpTimestamp() {
+        return otpTimestamp;
+    }
+
+    public void setOtpTimestamp(long otpTimestamp) {
+        this.otpTimestamp = otpTimestamp;
+    }
+	
+	
+	public User(int id, String votername, String password, String email, String otp, long otpTimestamp) {
 		super();
 		this.id = id;
 		this.votername = votername;
 		this.password = password;
 		this.email = email;
 		this.otp=otp;
+		this.otpTimestamp = otpTimestamp;
+	}
+	public User() {
+		// TODO Auto-generated constructor stub
 	}
 	
 	
