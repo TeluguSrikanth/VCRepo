@@ -69,4 +69,4 @@ Admin Token
 
 **Sample Request:**
 ```http
-GET /vc
+POST /vc
