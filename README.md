@@ -56,17 +56,15 @@ Admin Token
 ### 1. **VCcontroller**
 
 **Description:**  
-`AuthController` is responsible for handling requests related to [explain purpose].
+`VCcontroller` is responsible for handling requests related to [explain purpose].
 
 **Endpoints:**
 
 | Method | URL | Description |
 |--------|-----|-------------|
-| GET    | `/vc`     | Retrieves [resource] |
-| POST   | `(http://localhost:9998/auth/signup)`     | Creates a new [resource] |
-| PUT    | `/vc/{id}` | Updates an existing [resource] |
-| DELETE | `/vc/{id}` | Deletes an [resource] by ID |
+| GET    | `http://localhost:9998/voter/getvoter`     | Retrieves [resource] |
+| POST   | `http://localhost:9998/voter/addvoter`     | Creates a new [resource] |
+| PUT    | `http://localhost:9998/voter/updateName/{name}` | Updates an existing [resource] |
+| DELETE | `http://localhost:9998/voter/delete/{id}` | Deletes an [resource] by ID |
 
-**Sample Request:**
-```http
-POST /vc
+
