@@ -2,7 +2,7 @@
 
 ## Introduction
 
-A brief introduction to VCLIst project.
+A brief introduction to VCList project.
 I used this app for creating voters list and I've used in project to enter we need a JWt token.
 I implemented crud api's and signup and login otp.
 
