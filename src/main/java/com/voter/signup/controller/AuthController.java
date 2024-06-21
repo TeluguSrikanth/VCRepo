@@ -1,12 +1,13 @@
 package com.voter.signup.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.voter.signup.entity.User;
@@ -21,6 +22,8 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
 
 	@Autowired
     private UserService userService;
@@ -84,15 +87,17 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody @Valid SignupDetails signupDetails) {
+    	LOGGER.info("Signup attempt for email: {}", signupDetails.getEmail());
         signupService.signup(signupDetails);
-    
+        LOGGER.info("Signup successful for email: {}", signupDetails.getEmail());
         return ResponseEntity.ok("Signup successful. Check your email for verification.");
               
     }
     
     @PostMapping("/loginWithOtp")
     public ResponseEntity<?> loginWithOtp(@RequestBody @Valid LoginDetails loginDetails) {
-        if (loginDetails.getVotername() == null || loginDetails.getOtp() == null) {
+    	LOGGER.info("Login attempt with OTP for votername: {}", loginDetails.getVotername());
+    	if (loginDetails.getVotername() == null || loginDetails.getOtp() == null) {
             return ResponseEntity.badRequest().body("Votername and OTP must be provided");
         }
         
@@ -101,8 +106,10 @@ public class AuthController {
             // Clear the OTP after successful login
             User loggedInUser = userService.login(loginDetails.getVotername());
             loggedInUser.setOtp(null);
+            LOGGER.info("User {} logged in successfully with OTP.", loginDetails.getVotername());
             return ResponseEntity.ok(loggedInUser);
         } else {
+        	LOGGER.warn("Invalid OTP for votername: {}", loginDetails.getVotername());
             return ResponseEntity.badRequest().body("Invalid OTP");
         }
     }

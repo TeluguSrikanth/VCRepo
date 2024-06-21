@@ -17,17 +17,26 @@ public class SignupServiceImpl implements SignupService{
 	    @Autowired
 	    private UserService userService; // For OTP generation and email sending, if UserService handles it
 
+	    @Autowired
+	    private com.voter.signup.security.AESEncryptionUtil aesEncryptionUtil;
+	    
 	    @Override
 	    public void signup(SignupDetails signupDetails) {
+	    	try {
+	    		
+	    		String encryptedPassword = aesEncryptionUtil.encrypt(signupDetails.getPassword());
 	        // Create a new User entity from SignupDetails
 	        User user = new User();
 	        user.setId(signupDetails.getId());
 	        user.setVotername(signupDetails.getVotername());
-	        user.setPassword(signupDetails.getPassword());
+	      //user.setPassword(signupDetails.getPassword());
+	     // Encrypt password before saving
+	       // String encryptedPassword = AESEncryptionUtil.encrypt(signupDetails.getPassword());
+	        user.setPassword(encryptedPassword);
 	        user.setEmail(signupDetails.getEmail());
 
-//	        // Save user to database
-//	        userRepository.save(user);
+	        // Save user to database
+	        userRepository.save(user);
 //	        
 //	     // Generate OTP and send it to the provided email
 //	        // userService.generateOtp();
@@ -54,6 +63,12 @@ public class SignupServiceImpl implements SignupService{
 
 	        // Send OTP via email
 	        userService.sendOtpServ(signupDetails.getEmail(), otp);
+	    	
+	        
+	    } catch (Exception e) {
+            // Handle encryption exception
+            e.printStackTrace();
+        }
 	        
 }
 }

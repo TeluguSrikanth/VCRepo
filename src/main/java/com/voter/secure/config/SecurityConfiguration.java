@@ -51,6 +51,8 @@ public class SecurityConfiguration {
 		    .authorizeHttpRequests()
 		    .requestMatchers("/voter/wel", "/voter/new", "/voter/authenticate","/auth/login")
 		    .permitAll()
+		    .requestMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui/**", "/webjars/**")
+		    .permitAll()
 		    .and()
 		    .authorizeHttpRequests().requestMatchers("/voter/**", "/auth/**").authenticated()
 		    .and()

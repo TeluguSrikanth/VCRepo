@@ -8,7 +8,6 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties.Authentication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,6 +32,7 @@ import com.voter.service.VCService;
 
 @RestController
 @RequestMapping("/voter/")
+
 public class VCcontroller {
 	
 	private final Logger LOGGER = 
@@ -66,6 +66,7 @@ public class VCcontroller {
 		return vcService.addvoter(voter);
 		
 	}
+	
 	@GetMapping("/getvoter")
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	public List<VCList> getvoter(){
@@ -76,12 +77,14 @@ public class VCcontroller {
 		return vcService.getvoter();
 	}
 	
+	
 	@GetMapping("/id/{id}")
 	@PreAuthorize("hasAuthority('ROLE_USER')")
 	public Optional<VCList> getvoterById(@PathVariable int id){
 		LOGGER.debug("getVoters by id method");
 		return vcService.getvoterById(id);
 	}
+	
 	
 	@GetMapping("/name/{name}")
 	@PreAuthorize("hasAuthority('ROLE_USER')")

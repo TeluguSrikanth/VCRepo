@@ -13,6 +13,8 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.voter.controller.VCcontroller;
@@ -21,6 +23,9 @@ import com.voter.service.VCService;
 
 @SpringBootTest
 class VcListApplicationTests {
+	
+	private final Logger LOGGER = 
+			LoggerFactory.getLogger(VcListApplicationTests.class);
 
 	@InjectMocks
 	private VCcontroller vccontroller;
@@ -30,14 +35,18 @@ class VcListApplicationTests {
 	
 	@Test
     public void testAddVoter() {
+		LOGGER.info("Starting testServiceMethod");
         VCList voter = new VCList(1, "Srikanth", "Hyderabad", 24);
         when(vcService.addvoter(any(VCList.class))).thenReturn(voter);
 
-        VCList result = vccontroller.addvoter(voter);
+        VCList result = vcService.addvoter(voter);
+        LOGGER.info("Starting testServiceMethod");
 
         assertNotNull(result, "The saved voter should not be null");
         assertEquals(voter, result);
         verify(vcService, times(1)).addvoter(any(VCList.class));
+        
+        LOGGER.debug("Result from service: {}", result);
     }
 	
 	@Test

@@ -23,6 +23,8 @@ public interface UserService {
 	User login(String email);
 
 	void sendOtpServ(String email, String otp);
+
+//	User login(String votername, String password);
 	 
 //	void sendOtpToEmail(String email);
 //

@@ -27,6 +27,9 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private JavaMailSender javaMailSender;
 	
+	@Autowired
+    private com.voter.signup.security.AESEncryptionUtil aesEncryptionUtil;
+	
 	// Define OTP validity duration (in milliseconds)
     private static final long OTP_VALIDITY_DURATION = 5 * 60 * 1000; // 5 minutes
 
@@ -115,29 +118,21 @@ public class UserServiceImpl implements UserService{
 	        if (user == null) {
 	            throw new ValidationException("User with username '" + votername + "' does not exist");
 	        }
-
-	        // Generate OTP
-	       // String otp = generateOtp();
-
-	        // Save OTP to user
-	       // saveOtpToUser(votername, otp);
-
-	        // Send OTP via email
-	        //sendOtpServ(user.getEmail());
+	          
+	        // Decrypt password
+	        try {
+	            String decryptedPassword = aesEncryptionUtil.decrypt(user.getPassword());
+	            user.setPassword(decryptedPassword);
+	        } catch (Exception e) {
+	        	
+	            e.printStackTrace();
+	        }
 
 	        // Return the user object
 	        return user;
-	        
-	     // Clear the OTP after successful validation
-//		    user.setOtp(null);
-//		    userRepository.save(user);
-//
-//		    // Return the user object
-//		    return user;
-	        
+	                
 	    }
 	  
-	 
 
 	 @Override
 	 public boolean validateOtp(String votername, String otp) {
@@ -169,6 +164,8 @@ public class UserServiceImpl implements UserService{
 	            throw new RuntimeException("Unable to send OTP", e);
 	        }
 	    }
+
+	
     	
     
 //	 @Override
